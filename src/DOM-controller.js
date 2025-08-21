@@ -3,6 +3,17 @@ import { events } from "./events";
 const domController = (() => {
   initFormController();
   renderWeather();
+
+  const preloader = document.querySelector(".preloader");
+
+  // bind events
+  events.on("startApiRequest", () => {
+    preloader.classList.remove("loaded");
+  });
+  events.on("weatherApiRespond", () => {
+    preloader.classList.add("loaded");
+  });
+
 })();
 
 function renderWeather() {
@@ -19,6 +30,11 @@ function renderWeather() {
     });
 
     document.body.className = getWeatherTheme(weather.conditions);
+
+    const tempContainer = document.querySelector(
+      "#weatherContainer > div[data-attr='tempContainer']",
+    );
+    getGIF().then((img) => tempContainer.appendChild(img));
   }
 
   function createWeatherElement(weather) {
@@ -39,7 +55,8 @@ function renderWeather() {
 
     city.textContent = weather.city;
     description.textContent = weather.description;
-    conditions.textContent = weather.conditions;conditions
+    conditions.textContent = weather.conditions;
+    conditions;
     temp.textContent = `${weather.temp}${weather.unitGroup === "metric" ? "°C" : "°F"}`;
     feelslike.textContent = `Feels like: ${weather.feelslike}${weather.unitGroup === "metric" ? "°C" : "°F"}`;
     precipprob.textContent = `Precipitation: ${weather.precipprob}%`;
@@ -117,6 +134,59 @@ function renderWeather() {
     } else {
       return "default";
     }
+  }
+
+  async function getGIF() {
+    const API_KEY = "Sv8ppGyxWpTMsC5PLH90uvD2RvUuM4fF";
+    const BASE_URL = `https://api.giphy.com/v1/gifs?api_key=${API_KEY}`;
+
+    const img = document.createElement("img");
+    img.setAttribute("style", "max-height: 50%");
+    if (document.body.className === "cloudy") {
+      let response = await fetch(`${BASE_URL}&ids=dBXNPw0XBdF1n82BBf`, {
+        mode: "cors",
+      });
+      let json = await response.json();
+      img.src = json.data[0].images.original.url;
+    } else if (document.body.className === "sunny") {
+      let response = await fetch(`${BASE_URL}&ids=xThtadpEYo0hmZGMSI`, {
+        mode: "cors",
+      });
+      let json = await response.json();
+      img.src = json.data[0].images.original.url;
+    } else if (document.body.className === "rainy") {
+      let response = await fetch(`${BASE_URL}&ids=W9qCmeTuUoaFG`, {
+        mode: "cors",
+      });
+      let json = await response.json();
+      img.src = json.data[0].images.original.url;
+    } else if (document.body.className === "snowy") {
+      let response = await fetch(`${BASE_URL}&ids=bUb65JMBjPhFjPDrQm`, {
+        mode: "cors",
+      });
+      let json = await response.json();
+      img.src = json.data[0].images.original.url;
+    } else if (document.body.className === "foggy") {
+      let response = await fetch(`${BASE_URL}&ids=KPtOFhewRGWl2`, {
+        mode: "cors",
+      });
+      let json = await response.json();
+      img.src = json.data[0].images.original.url;
+    } else if (document.body.className === "stormy") {
+      let response = await fetch(`${BASE_URL}&ids=3osxYzIQRqN4DOEddC`, {
+        mode: "cors",
+      });
+      let json = await response.json();
+      img.src = json.data[0].images.original.url;
+    } else {
+      let response = await fetch(`${BASE_URL}&ids=jsm7XMcyeTFJE4vHzO`, {
+        mode: "cors",
+      });
+      let json = await response.json();
+      img.src = json.data[0].images.original.url;
+    }
+
+    return img;
   }
 }
 

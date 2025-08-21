@@ -10,6 +10,7 @@ const weatherController = (() => {
 
   async function weatherRequest(city) {
     try {
+      events.emit("startApiRequest");
       let response = await fetch(
         `${BASE_URL}${city}?key=${API_KEY}&unitGroup=metric`,
         { mode: "cors" },
@@ -30,7 +31,6 @@ const weatherController = (() => {
   const parseJSON = async (response) => {
     let weather = await response.json();
     let currentConditions = weather.currentConditions;
-    console.log(weather);
     return {
       city: weather.address,
       description: weather.description,
