@@ -39,6 +39,10 @@ function renderWeather() {
   events.on("changeTempUnit", changeTemp);
 
   function render(weather) {
+    if (weather === "error"){
+        alert("City doesn't exits");
+        return;
+    }
     weatherContainer.innerHTML = "";
     currentWeather = weather;
     createWeatherElement(weather).forEach((element) => {

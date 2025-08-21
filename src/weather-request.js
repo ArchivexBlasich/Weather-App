@@ -17,13 +17,14 @@ const weatherController = (() => {
       );
       if (!response.ok) {
         response.status === 400
-          ? console.error("City not found")
+          ? events.emit("weatherApiRespond", "error")
           : console.error("Error, status received:" + response.status);
         return;
       }
       let weather = await parseJSON(response);
       events.emit("weatherApiRespond", weather);
     } catch (error) {
+      events.emit("weatherApiRespond", "error");
       console.log(error);
     }
   }
