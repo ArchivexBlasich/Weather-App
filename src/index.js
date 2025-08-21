@@ -1,2 +1,3 @@
 import "./style.css";
-import weatherRequest from "./weather-request";
+import domController from "./DOM-controller.js"
+import weatherController from "./weather-request";

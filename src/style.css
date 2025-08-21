@@ -1,0 +1,143 @@
+/*
+  Josh's Custom CSS Reset
+  https://www.joshwcomeau.com/css/custom-css-reset/
+*/
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    interpolate-size: allow-keywords;
+  }
+}
+
+body {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+}
+
+input, button, textarea, select {
+  font: inherit;
+}
+
+p, h1, h2, h3, h4, h5, h6 {
+  overflow-wrap: break-word;
+}
+
+p {
+  text-wrap: pretty;
+}
+h1, h2, h3, h4, h5, h6 {
+  text-wrap: balance;
+}
+
+#root, #__next {
+  isolation: isolate;
+}
+
+/*---------- Weather Styles  -----------------*/
+.default {
+  background: linear-gradient(to top, #bdc3c7, #2c3e50);
+  color: #fff;
+}
+
+.sunny {
+  background: linear-gradient(to top, #ffb347, #ffcc33);
+  color: #222;
+}
+
+.cloudy {
+  background: linear-gradient(to top, #87ceeb, #c0c0c0);
+  color: #333;
+}
+
+.rainy {
+  background: linear-gradient(to top, #4a90e2, #2c3e50);
+  color: #e0e0e0;
+}
+
+.snowy {
+  background: linear-gradient(to top, #e0ffff, #ffffff);
+  color: #003366;
+}
+
+.foggy {
+  background: linear-gradient(to top, #d3d3d3, #f5f5f5);
+  color: #444;
+}
+
+.stormy {
+  background: linear-gradient(to top, #232526, #414345);
+  color: #fff;
+  animation: flash 3s infinite;
+}
+
+body {
+    min-height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#city-name-form {
+    align-self: center;
+    font-size: 1.2rem;
+    color: black;
+    padding: 2rem;
+    margin-bottom: 5rem;
+
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    gap: 1rem;
+}
+
+#city-name-form input {
+    background-color: inherit;
+    border: 2px solid black;
+    border-radius: 1rem;
+    outline: none;
+}
+
+#city-name-form input:focus,
+#city-name-form input:hover {
+    box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
+}
+
+#city-name-form button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+#weatherContainer {
+    font-size: 1.1rem;
+    color: inherit;
+    flex-grow: 0;
+
+    display: grid;
+    grid-template-columns: minmax(10vw,20vw) 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 1.2rem;
+}
+
+#weatherContainer > div[data-attr="tempContainer"] {
+    font-size: 2rem;
+    grid-column: 2 / 3;
+    grid-row: 1 / -1;
+
+    justify-content: center;
+    align-content: center;
+}
