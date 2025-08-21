@@ -5,6 +5,8 @@ const domController = (() => {
   renderWeather();
 
   const preloader = document.querySelector(".preloader");
+  const toggleTempUnitBtn = document.querySelector("#toggleTempUnit");
+  const weatherContainer = document.querySelector("#weatherContainer");
 
   // bind events
   events.on("startApiRequest", () => {
@@ -14,17 +16,31 @@ const domController = (() => {
     preloader.classList.add("loaded");
   });
 
+  toggleTempUnitBtn.addEventListener("click", toggleTempUnit);
+
+  function toggleTempUnit() {
+    if (weatherContainer.innerHTML === "") return;
+    events.emit("changeTempUnit");
+    if (toggleTempUnitBtn.textContent === "°C") {
+       toggleTempUnitBtn.textContent = "°F" 
+    } else {
+        toggleTempUnitBtn.textContent = "°C"
+    }
+  }
 })();
 
 function renderWeather() {
   // DOM cache
   const weatherContainer = document.querySelector("#weatherContainer");
+  let currentWeather;
 
   // bind events
   events.on("weatherApiRespond", render);
+  events.on("changeTempUnit", changeTemp);
 
   function render(weather) {
     weatherContainer.innerHTML = "";
+    currentWeather = weather;
     createWeatherElement(weather).forEach((element) => {
       weatherContainer.appendChild(element);
     });
@@ -187,6 +203,45 @@ function renderWeather() {
     }
 
     return img;
+  }
+
+  function changeTemp() {
+    function convertCelsiusToFahrenheit(celsius) {
+      const fahrenheit = (celsius * 9) / 5 + 32;
+      return Math.round(fahrenheit * 100) / 100;;
+    }
+
+    function convertFahrenheitToCelsius(fahrenheit) {
+      let celsius =  ((fahrenheit - 32) * 5) / 9;
+      return Math.round(celsius * 100) / 100;
+    }
+
+    let temp = document.querySelector("[data-attr='temp']");
+    let feelslike = document.querySelector("[data-attr='feelslike']");
+
+    if (currentWeather.unitGroup === "metric") {
+      let tempF = Number(temp.textContent.replace("°C", ""));
+      tempF = convertCelsiusToFahrenheit(tempF);
+      temp.textContent = `${tempF}°F`;
+
+      let feelslikeF = feelslike.textContent.replace("Feels like: ", "");
+      feelslikeF = Number(feelslikeF.replace("°C", ""));
+      feelslikeF = convertCelsiusToFahrenheit(feelslikeF);
+      feelslike.textContent = `Feels like:  ${feelslikeF}°F`;
+
+      currentWeather.unitGroup = "us";
+    } else {
+      let tempC = Number(temp.textContent.replace("°F", ""));
+      tempC = convertFahrenheitToCelsius(tempC);
+      temp.textContent = `${tempC}°C`;
+
+      let feelslikeC = feelslike.textContent.replace("Feels like: ", "");
+      feelslikeC = Number(feelslikeC.replace("°F", ""));
+      feelslikeC = convertFahrenheitToCelsius(feelslikeC);
+      feelslike.textContent = `Feels like:  ${feelslikeC}°C`;
+
+      currentWeather.unitGroup = "metric";
+    }
   }
 }
 

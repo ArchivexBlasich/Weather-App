@@ -122,6 +122,15 @@ body {
   pointer-events: none;
 }
 
+#toggleTempUnit {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+
+    background: none;
+    border-radius: 50%;
+    cursor: pointer;
+}
 
 #city-name-form {
     align-self: center;
