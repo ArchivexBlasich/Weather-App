@@ -40,7 +40,7 @@ function renderWeather() {
 
   function render(weather) {
     if (weather === "error"){
-        alert("City doesn't exits");
+        alert("City doesn't exist");
         return;
     }
     weatherContainer.innerHTML = "";
